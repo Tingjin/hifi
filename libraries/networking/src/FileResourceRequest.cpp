@@ -20,7 +20,7 @@
 void FileResourceRequest::doSend() {
     auto statTracker = DependencyManager::get<StatTracker>();
     statTracker->incrementStat(STAT_FILE_REQUEST_STARTED);
-	int fileSize;
+	int fileSize = 0;
     QString filename = _url.toLocalFile();
     
     // sometimes on windows, we see the toLocalFile() return null,
