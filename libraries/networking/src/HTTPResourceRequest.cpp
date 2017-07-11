@@ -196,11 +196,16 @@ void HTTPResourceRequest::onRequestFinished() {
 
 void HTTPResourceRequest::onDownloadProgress(qint64 bytesReceived, qint64 bytesTotal) {
     Q_ASSERT(_state == InProgress);
-    
+	    
     // We've received data, so reset the timer
     _sendTimer->start();
 
     emit progress(bytesReceived, bytesTotal);
+	
+	//Recording HTTP bytes downloaded in stats
+	DependencyManager::get<StatTracker>()->updateStat(STAT_HTTP_RESOURCE_TOTAL_BYTES, bytesReceived);
+	
+	
 }
 
 void HTTPResourceRequest::onTimeout() {
